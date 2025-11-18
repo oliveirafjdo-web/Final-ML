@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Produtos</h2>
+  <form class="form-grid" method="post" action="{{ url_for('novo_produto') }}">
+    <label>Nome
+      <input type="text" name="name" required>
+    </label>
+    <label>SKU
+      <input type="text" name="sku">
+    </label>
+    <label>Custo variável (R$)
+      <input type="number" step="0.01" name="variable_cost" required>
+    </label>
+    <label>Preço sugerido (R$)
+      <input type="number" step="0.01" name="default_price" required>
+    </label>
+    <button class="btn-primary full-width">Salvar</button>
+  </form>
+</section>
+<section class="card">
+  <h3>Lista de produtos</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Nome</th><th>SKU</th><th>Custo</th><th>Preço</th><th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in products %}
+      <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.sku or '' }}</td>
+        <td>{{ '%.2f'|format(p.variable_cost) }}</td>
+        <td>{{ '%.2f'|format(p.default_price) }}</td>
+        <td>
+          <a class="btn-small" href="{{ url_for('editar_produto', product_id=p.id) }}">Editar</a>
+          <form method="post" action="{{ url_for('deletar_produto', product_id=p.id) }}" style="display:inline;" onsubmit="return confirm('Excluir produto e todos os lançamentos relacionados?');">
+            <button class="btn-small btn-danger" type="submit">Excluir</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

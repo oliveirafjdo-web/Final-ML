@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Editar produto #{{ p.id }}</h2>
+  <form class="form-grid" method="post" action="{{ url_for('editar_produto', product_id=p.id) }}">
+    <label>Nome
+      <input type="text" name="name" value="{{ p.name }}" required>
+    </label>
+    <label>SKU
+      <input type="text" name="sku" value="{{ p.sku }}">
+    </label>
+    <label>Custo variável (R$)
+      <input type="number" step="0.01" name="variable_cost" value="{{ '%.2f'|format(p.variable_cost) }}" required>
+    </label>
+    <label>Preço sugerido (R$)
+      <input type="number" step="0.01" name="default_price" value="{{ '%.2f'|format(p.default_price) }}" required>
+    </label>
+    <button class="btn-primary full-width">Salvar alterações</button>
+  </form>
+</section>
+{% endblock %}

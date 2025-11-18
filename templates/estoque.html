@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Estoque</h2>
+  <p>
+    <a class="btn-primary" href="{{ url_for('entrada_estoque') }}">Registrar entrada</a>
+    <a class="btn-primary" href="{{ url_for('ajuste_estoque') }}">Ajustar estoque</a>
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th><th>Produto</th><th>SKU</th><th>Qtd</th><th>Custo médio</th><th>Total (R$)</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in dados %}
+      <tr>
+        <td>{{ d.id }}</td>
+        <td>{{ d.name }}</td>
+        <td>{{ d.sku or '' }}</td>
+        <td>{{ d.quantity }}</td>
+        <td>{{ '%.2f'|format(d.avg_cost) }}</td>
+        <td>{{ '%.2f'|format(d.total) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Ajuste de estoque</h2>
+  <form class="form-grid" method="post" action="{{ url_for('ajuste_estoque') }}">
+    <label>Produto
+      <select name="product_id" required>
+        <option value="">Selecione</option>
+        {% for p in products %}
+        <option value="{{ p.id }}">{{ p.name }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>Nova quantidade em estoque
+      <input type="number" step="0.01" name="new_quantity" required>
+    </label>
+    <button class="btn-primary full-width">Ajustar</button>
+  </form>
+</section>
+{% endblock %}

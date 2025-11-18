@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>Redutron ERP Final</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="logo">Redutron ERP Final</div>
+  <nav class="menu">
+    <a href="{{ url_for('index') }}">Dashboard</a>
+    <a href="{{ url_for('produtos') }}">Produtos</a>
+    <a href="{{ url_for('vendas') }}">Vendas</a>
+    <a href="{{ url_for('relatorio') }}">Relatórios</a>
+    <a href="{{ url_for('importar_ml') }}">Importar ML</a>
+    <a href="{{ url_for('estoque') }}">Estoque</a>
+    <a href="{{ url_for('configuracoes') }}">Configurações</a>
+  </nav>
+</header>
+<main class="container">
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-area">
+        {% for m in messages %}
+          <div class="flash">{{ m }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

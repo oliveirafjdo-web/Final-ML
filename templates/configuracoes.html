@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Configurações</h2>
+  <form class="form-grid" method="post" action="{{ url_for('configuracoes') }}">
+    <label>Imposto (% sobre valor bruto)
+      <input type="number" step="0.01" name="imposto_pct" value="{{ imposto_pct }}">
+    </label>
+    <label>Despesa (% sobre valor líquido - comissão)
+      <input type="number" step="0.01" name="despesa_pct" value="{{ despesa_pct }}">
+    </label>
+    <button class="btn-primary full-width">Salvar</button>
+  </form>
+</section>
+{% endblock %}

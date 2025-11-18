@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Importar vendas consolidadas</h2>
+  <p>Use o modelo gerado em "Vendas &gt; Baixar modelo de vendas consolidadas".</p>
+  <form method="post" enctype="multipart/form-data" action="{{ url_for('importar_consolidado') }}">
+    <label>Arquivo XLSX
+      <input type="file" name="arquivo" accept=".xlsx" required>
+    </label>
+    <button class="btn-primary" style="margin-top:10px;">Importar</button>
+  </form>
+</section>
+{% endblock %}

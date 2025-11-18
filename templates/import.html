@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Importar planilha Mercado Livre (Vendas BR)</h2>
+  <p>Envie o arquivo XLSX original do relatório "Vendas BR".</p>
+  <form method="post" enctype="multipart/form-data" action="{{ url_for('importar_ml') }}">
+    <label>Arquivo XLSX
+      <input type="file" name="arquivo" accept=".xlsx" required>
+    </label>
+    <button class="btn-primary" style="margin-top:10px;">Importar</button>
+  </form>
+</section>
+{% endblock %}

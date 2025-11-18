@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Relatório e curva ABC</h2>
+  <form class="form-inline" method="post" action="{{ url_for('relatorio') }}">
+    <label>Início
+      <input type="date" name="inicio" value="{{ inicio or '' }}">
+    </label>
+    <label>Fim
+      <input type="date" name="fim" value="{{ fim or '' }}">
+    </label>
+    <label>Critério
+      <select name="criterio">
+        <option value="faturamento" {% if criterio == 'faturamento' %}selected{% endif %}>Faturamento</option>
+        <option value="margem" {% if criterio == 'margem' %}selected{% endif %}>Margem</option>
+      </select>
+    </label>
+    <button class="btn-primary">Filtrar</button>
+    {% if dados %}
+    <a class="btn-primary" href="{{ url_for('relatorio_csv', inicio=inicio, fim=fim, criterio=criterio) }}">Exportar CSV</a>
+    {% endif %}
+  </form>
+</section>
+<section class="card">
+{% if dados %}
+  <table>
+    <thead>
+      <tr>
+        <th>Produto</th><th>Qtd</th><th>Fat. bruto</th><th>Desc.</th>
+        <th>Comissão</th><th>Imposto</th><th>Despesa</th><th>Outros</th>
+        <th>Custo prod.</th><th>Custos var.</th><th>Margem (R$)</th><th>Margem (%)</th><th>% acum.</th><th>Curva</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in dados %}
+      <tr>
+        <td>{{ d.product_name }}</td>
+        <td>{{ d.total_qty }}</td>
+        <td>{{ '%.2f'|format(d.faturamento_bruto) }}</td>
+        <td>{{ '%.2f'|format(d.total_desconto) }}</td>
+        <td>{{ '%.2f'|format(d.marketplace_fee) }}</td>
+        <td>{{ '%.2f'|format(d.imposto) }}</td>
+        <td>{{ '%.2f'|format(d.despesa) }}</td>
+        <td>{{ '%.2f'|format(d.other_cost) }}</td>
+        <td>{{ '%.2f'|format(d.custo_produto) }}</td>
+        <td>{{ '%.2f'|format(d.total_custos_variaveis) }}</td>
+        <td>{{ '%.2f'|format(d.margem_contrib) }}</td>
+        <td>{{ '%.2f'|format(d.margem_pct) }}%</td>
+        <td>{{ '%.1f'|format(d.perc_acumulado) }}%</td>
+        <td>{{ d.curva }}</td>
+      </tr>
+      {% endfor %}
+      <tr class="totals-row">
+        <td><strong>TOTAIS</strong></td>
+        <td><strong>{{ '%.2f'|format(totals.qtd) }}</strong></td>
+        <td><strong>{{ '%.2f'|format(total_fat_bruto) }}</strong></td>
+        <td><strong>{{ '%.2f'|format(totals.desconto) }}</strong></td>
+        <td><strong>{{ '%.2f'|format(totals.marketplace) }}</strong></td>
+        <td><strong>{{ '%.2f'|format(totals.imposto) }}</strong></td>
+        <td><strong>{{ '%.2f'|format(totals.despesa) }}</strong></td>
+        <td><strong>{{ '%.2f'|format(totals.outros) }}</strong></td>
+        <td><strong>{{ '%.2f'|format(totals.custo_produto) }}</strong></td>
+        <td><strong>{{ '%.2f'|format(totals.custos_var) }}</strong></td>
+        <td><strong>{{ '%.2f'|format(totals.margem) }}</strong></td>
+        <td></td><td></td><td></td>
+      </tr>
+    </tbody>
+  </table>
+{% else %}
+  <p>Nenhuma venda no período.</p>
+{% endif %}
+</section>
+{% endblock %}
